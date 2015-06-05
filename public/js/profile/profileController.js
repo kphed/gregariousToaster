@@ -46,7 +46,23 @@ angular.module('snippit.profile', ['snippit'])
     };
 
     $scope.fetchSnips = function(){
+<<<<<<< HEAD
     };
+=======
+      Snips.getSnips().success(function(resp) {
+        console.log('RESP', resp);
+        for (var i = 0; i < resp.length; i++) {
+          console.log('RESP' + i, resp[i]);
+          $scope.snips[resp[i]._id] = {
+            name: resp[i].name,
+            img: resp[i].img
+          }
+        }
+        console.log('SCOPE SNIPS', $scope.snips);
+      })
+    }
+
+>>>>>>> Delete snip by name on database if user saves snip with no photos on it
 
     $scope.snipAdd = function() {
       console.log($scope.facebookUser);
@@ -62,7 +78,10 @@ angular.module('snippit.profile', ['snippit'])
     };
 
     $scope.snipClose = function() {
+      console.log('SNIP NAME', $scope.snipName);
       if (Object.keys($scope.snipPhotos).length === 0) {
+        console.log('NO PHOTOS, DELETING SNIP FROM DATABASE');
+        Snips.deleteSnip($scope.snipName)
         delete $scope.snips[$scope.snipId];
         $scope.snipPhotos = {};
         $scope.snipName = '';
